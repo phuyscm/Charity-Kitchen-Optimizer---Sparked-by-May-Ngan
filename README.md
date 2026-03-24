@@ -1,5 +1,8 @@
 # Hệ Thống Tối Ưu Hóa Bếp Ăn Từ Thiện
 
+<img width="997" height="863" alt="image" src="https://github.com/user-attachments/assets/016a6ae4-4d08-4729-84bf-4b17a85c8c20" />
+
+ 
 Một ứng dụng Web dựa trên Quy hoạch tuyến tính (LP) ngẫu nhiên, được thiết kế để tối ưu hóa các quyết định mua sắm hàng ngày cho các bếp ăn từ thiện xã hội. 
 
 Lấy cảm hứng từ hoạt động hàng ngày của Quán cơm xã hội Mây Ngàn 2.000 VNĐ, dự án này giải quyết một câu hỏi vận hành cốt lõi: Làm thế nào để duy trì ổn định 360 suất ăn đủ dinh dưỡng với ngân sách eo hẹp khi nguồn thực phẩm quyên góp mỗi ngày là hoàn toàn ngẫu nhiên?

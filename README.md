@@ -88,6 +88,20 @@ $$\sum_{k \in K} (Nut_{k,j} \cdot x_k) - u_j \leq Max_j - DonatedNut_j \quad \fo
 [C4] Giới Hạn Ngân Sách (Ràng buộc cứng)
 $$\sum_{k \in K} (P_k \cdot x_k) \leq B$$
 
-Ý nghĩa: Tổng số tiền mua thịt, cá, rau củ ngoài chợ tuyệt đối không được vượt quá số tiền trong quỹ. Đây là Ràng buộc Cứng (Hard Constraint) - không có nới lỏng.
+## Hạn Chế Của Mô Hình (Limitations & Real-world Challenges)
+
+Đứng từ góc độ quản trị vận hành và người trực tiếp quản lý bếp ăn, dù mô hình giải quyết tốt bài toán phân bổ ngân sách, nó vẫn tồn tại những giới hạn của Quy hoạch tuyến tính (LP) khi áp dụng vào thực tế:
+
+1. Giả định tuyến tính trong mua sắm (Fractional Purchasing)
+Quy hoạch tuyến tính giả định các biến quyết định là liên tục (Continuous variables). Do đó, bộ giải có thể đề xuất mua 1.345 kg cà rốt hoặc 0.72 kg muối. Trong thực tế thu mua tại chợ hoặc siêu thị, hàng hóa được bán theo quy cách đóng gói sẵn (bó, gói 500g, can 5 lít). Người đi chợ không thể mua số lẻ chính xác đến từng gram như máy tính đề xuất.
+
+2. Tầm nhìn đơn kỳ và Bỏ qua chi phí tồn kho (Single-period Myopia)
+Mô hình hiện tại chỉ giải quyết bài toán tối ưu cho một ngày duy nhất. Việc giới hạn lượng hàng quyên góp (Donation Capping) giúp giải quyết nhu cầu hôm nay, nhưng hoàn toàn bỏ qua phần hàng dư thừa. Ví dụ, nếu nhận được 100kg gạo, mô hình dùng đủ cho hôm nay và "quên" số gạo còn lại. Nó chưa tính toán đến chi phí lưu kho, sức chứa của kho bếp, và rủi ro hết hạn sử dụng (hàng mau hỏng như rau, thịt) của các kỳ tiếp theo.
+
+3. Thiếu logic kết hợp món ăn và Yếu tố cảm quan (Palatability & Recipe Logic)
+Mô hình toán học hoàn toàn "vô cảm". Nó chỉ quan tâm đến việc đạt đủ chỉ số Calo/Protein với giá rẻ nhất. Nếu không được kiểm soát khéo léo bằng các biến số phụ, hệ thống có thể đề xuất những thực đơn vô lý về mặt ẩm thực (ví dụ: chỉ ăn toàn cơm trắng, đậu phộng và rau cải trong nhiều ngày liên tiếp) hoặc mua thịt lợn nhưng lại không mua hành tỏi đi kèm. 
+
+4. Bỏ qua biến động giá và Chiết khấu mua sỉ (Non-linear Pricing)
+Mô hình đang sử dụng một đơn giá cố định cho mỗi kg nguyên liệu. Trên thực tế, giá cả ở chợ truyền thống biến động theo ngày. Hơn nữa, việc mua sỉ khối lượng lớn thường đi kèm chiết khấu (Economies of Scale), tạo ra cấu trúc giá phi tuyến tính (Step-costs hoặc Piecewise linear costs) mà một mô hình LP cơ bản chưa thể nắm bắt được.
 ---
 

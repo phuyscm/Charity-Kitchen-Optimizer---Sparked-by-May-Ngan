@@ -73,24 +73,21 @@ $$\min Z = 15000 x_{rice} + 80000 x_{pork} + ... + 10^6 s_{calo} + 10^4 u_{calo}
 Tổng lượng nguyên liệu (Mua thêm + Quyên góp) phải đáp ứng đủ định mức công thức cho $N$ suất ăn.
 $$x_k \geq (N \cdot W_k) - D_k \quad \forall k \in K$$
 
+Ý nghĩa: Dù có nấu món gì, dùng bao nhiêu nguyên liệu, thì tổng số đồ ăn (gồm đồ các bạn mang từ nhà đi + đồ ra chợ mua thêm) ít nhất phải đủ định mức để nấu được 360 suất.
+
 [C2] Tiêu Chuẩn Dinh Dưỡng Tối Thiểu (Ràng buộc mềm)
 $$\sum_{k \in K} (Nut_{k,j} \cdot x_k) + s_j \geq Min_j - DonatedNut_j \quad \forall j \in J$$
+
+Ý nghĩa: Tổng lượng Calo, Protein... của suất ăn không được thấp hơn mức tối thiểu (Min) đã được quy định. Đây là Ràng buộc Mềm (Soft Constraint)
 
 [C3] Tiêu Chuẩn Dinh Dưỡng Tối Đa (Ràng buộc mềm)
 $$\sum_{k \in K} (Nut_{k,j} \cdot x_k) - u_j \leq Max_j - DonatedNut_j \quad \forall j \in J$$
 
+Ý nghĩa: Tương tự như Min, nhưng lần này là không được vượt quá mức Max. Cũng là Ràng buộc Mềm.
+
 [C4] Giới Hạn Ngân Sách (Ràng buộc cứng)
 $$\sum_{k \in K} (P_k \cdot x_k) \leq B$$
 
+Ý nghĩa: Tổng số tiền mua thịt, cá, rau củ ngoài chợ tuyệt đối không được vượt quá số tiền trong quỹ. Đây là Ràng buộc Cứng (Hard Constraint) - không có nới lỏng.
 ---
 
-## Cài Đặt & Sử Dụng
-
-### Yêu cầu hệ thống
-Đảm bảo máy tính đã cài đặt Python 3.8 trở lên.
-
-### Thiết lập
-1. Clone repository về máy:
-   ```bash
-   git clone [https://github.com/phuyscm/charity-kitchen-optimizer.git](https://github.com/phuyscm/charity-kitchen-optimizer.git)
-   cd charity-kitchen-optimizer

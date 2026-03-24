@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Charity Kitchen Optimizer — Bếp Ăn Từ Thiện</title>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600&family=Lora:ital,wght@1,400&display=swap" rel="stylesheet">
+<style>
+:root{--fire:#E8593C;--gold:#F2A623;--green:#3AAA7C;--muted:#8c8278;--bg:#FAF8F5;--surface:#fff;--text:#2d2820;--text2:#6b6158;--border:rgba(0,0,0,0.08);--r:12px;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Be Vietnam Pro',sans-serif;background:var(--bg);color:var(--text);font-size:14px;line-height:1.7;}
+.hero{background:var(--text);color:#fff;padding:36px 40px 28px;}
+.hero-inner{max-width:1100px;margin:0 auto;}
+.hero-tag{display:inline-block;background:rgba(232,89,60,.2);color:var(--fire);font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;padding:3px 10px;border-radius:20px;margin-bottom:12px;border:1px solid rgba(232,89,60,.3);}
+.hero h1{font-family:'Lora',serif;font-size:clamp(20px,3vw,30px);font-weight:400;line-height:1.3;margin-bottom:10px;}
+.hero h1 em{color:var(--gold);}
+.hero-desc{font-size:13px;color:rgba(255,255,255,.6);max-width:600px;line-height:1.8;margin-bottom:18px;}
+.ba-strip{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px;}
+.ba-card{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:10px;padding:10px 14px;flex:1;min-width:180px;}
+.ba-label{font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;margin-bottom:5px;}
+.ba-item{font-size:12px;color:rgba(255,255,255,.5);line-height:1.8;}
+.ba-item.bad::before{content:"✗ ";color:#f09595;}
+.ba-item.good::before{content:"✓ ";color:#9FE1CB;}
+.how{display:flex;gap:6px;align-items:center;flex-wrap:wrap;}
+.how-step{display:flex;align-items:center;gap:6px;background:rgba(255,255,255,.06);border-radius:20px;padding:5px 12px;font-size:12px;color:rgba(255,255,255,.65);}
+.how-num{width:18px;height:18px;border-radius:50%;background:var(--fire);color:#fff;font-size:10px;font-weight:600;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.how-arr{color:rgba(255,255,255,.2);}
+.demo-bar{background:linear-gradient(135deg,#fff8f6,#fffcf0);border-bottom:1px solid var(--border);padding:12px 40px;}
+.demo-inner{max-width:1100px;margin:0 auto;display:flex;align-items:center;gap:12px;flex-wrap:wrap;}
+.demo-tag{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:var(--fire);background:#faeeda;padding:3px 10px;border-radius:20px;white-space:nowrap;}
+.demo-text{font-size:13px;color:var(--text2);flex:1;}
+.demo-btns{display:flex;gap:6px;flex-wrap:wrap;}
+.demo-btn{font-size:12px;padding:6px 14px;border-radius:20px;cursor:pointer;font-family:inherit;transition:opacity .15s;white-space:nowrap;border:none;}
+.demo-btn.primary{background:var(--fire);color:#fff;}
+.demo-btn.outline{background:none;color:var(--fire);border:1px solid var(--fire);}
+.demo-btn.real{background:none;color:var(--green);border:1px solid var(--green);}
+.demo-btn:hover{opacity:.8;}
+.main{max-width:1100px;margin:0 auto;padding:20px 32px;display:grid;grid-template-columns:350px 1fr;gap:18px;align-items:start;}
+@media(max-width:800px){.main{grid-template-columns:1fr;padding:14px;}}
+.panel{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;margin-bottom:12px;}
+.panel-head{padding:10px 14px;background:var(--bg);border-bottom:1px solid var(--border);font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--text2);}
+.panel-body{padding:12px 14px;}
+.input-row{display:flex;align-items:flex-start;justify-content:space-between;padding:7px 0;border-bottom:1px solid var(--border);}
+.input-row:last-child{border-bottom:none;}
+.input-label{font-size:13px;color:var(--text);flex:1;padding-right:8px;}
+.input-label small{display:block;font-size:11px;color:var(--muted);}
+.input-right{display:flex;flex-direction:column;align-items:flex-end;gap:3px;}
+.input-num{width:82px;padding:4px 8px;font-size:13px;font-family:inherit;border:1px solid var(--border);border-radius:8px;text-align:right;background:var(--bg);color:var(--text);outline:none;}
+.input-num:focus{border-color:var(--fire);}
+.input-vnd{font-size:10px;color:var(--green);font-weight:500;min-height:14px;}
+.cov-bar-wrap{width:82px;height:4px;background:#f0ece8;border-radius:2px;overflow:hidden;}
+.cov-bar-fill{height:100%;border-radius:2px;transition:width .4s ease,background .4s ease;}
+.slider-block{padding:8px 0;border-bottom:1px solid var(--border);}
+.slider-block:last-child{border-bottom:none;}
+.slider-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:4px;}
+.slider-label-wrap{flex:1;padding-right:8px;}
+.slider-label{font-size:13px;color:var(--text);}
+.slider-note{font-size:11px;color:var(--muted);display:block;}
+.slider-val{font-weight:600;color:var(--fire);white-space:nowrap;font-size:14px;}
+input[type=range]{width:100%;accent-color:var(--fire);cursor:pointer;}
+.btn-row{display:grid;grid-template-columns:1fr auto;gap:8px;margin-top:12px;}
+.solve-btn{padding:12px;font-size:14px;font-weight:600;font-family:inherit;background:var(--fire);color:#fff;border:none;border-radius:var(--r);cursor:pointer;transition:opacity .2s;}
+.solve-btn:hover{opacity:.87;}
+.solve-btn:disabled{opacity:.45;cursor:not-allowed;}
+.reset-btn{padding:12px 14px;font-size:13px;font-family:inherit;background:none;border:1px solid var(--border);border-radius:var(--r);cursor:pointer;color:var(--muted);transition:all .15s;}
+.reset-btn:hover{border-color:var(--fire);color:var(--fire);}
+.result-placeholder{padding:48px 20px;text-align:center;color:var(--muted);}
+.result-placeholder .ico{font-size:32px;margin-bottom:10px;opacity:.3;}
+.result-placeholder p{font-size:13px;line-height:1.8;}
+.status-bar{display:flex;align-items:center;gap:8px;padding:11px 14px;font-size:13px;font-weight:500;border-bottom:1px solid var(--border);}
+.sdot{width:7px;height:7px;border-radius:50%;}
+.status-bar.optimal{background:#e8f7f0;color:#1e7a50;}
+.status-bar.feasible{background:#fff7e6;color:#b06d00;}
+.status-bar.bad{background:#fdecea;color:#c0392b;}
+.summary-card{margin:14px 16px;padding:14px 16px;border-radius:10px;background:var(--bg);border:1px solid var(--border);}
+.summary-headline{font-size:15px;font-weight:600;color:var(--text);margin-bottom:5px;}
+.summary-detail{font-size:13px;color:var(--text2);line-height:1.8;}
+.kpi-row{display:grid;grid-template-columns:repeat(3,1fr);}
+.kpi-cell{padding:14px;border-right:1px solid var(--border);border-bottom:1px solid var(--border);background:var(--bg);}
+.kpi-cell:last-child{border-right:none;}
+.kpi-val{font-size:17px;font-weight:600;color:var(--text);line-height:1;margin-bottom:3px;}
+.kpi-lbl{font-size:11px;color:var(--muted);}
+.kpi-note{font-size:10px;color:var(--muted);margin-top:2px;}
+.sec-head{padding:9px 14px;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.09em;color:var(--text2);border-bottom:1px solid var(--border);background:var(--bg);}
+.cf-bar{margin-bottom:10px;}
+.cf-bar-header{display:flex;justify-content:space-between;font-size:12px;margin-bottom:4px;}
+.cf-track{height:26px;background:#f0ece8;border-radius:6px;overflow:hidden;border:0.5px solid var(--border);}
+.cf-fill{height:100%;border-radius:5px;display:flex;align-items:center;padding-left:10px;transition:width .7s ease;}
+.cf-fill span{font-size:11px;color:#fff;font-weight:500;white-space:nowrap;overflow:hidden;}
+.cf-summary{margin-top:10px;padding:9px 12px;background:var(--bg);border-radius:8px;border:0.5px solid var(--border);font-size:12px;color:var(--text2);line-height:1.8;}
+.buy-table{width:100%;border-collapse:collapse;}
+.buy-table td{padding:8px 14px;font-size:13px;border-bottom:1px solid var(--border);}
+.buy-table tr:last-child td{border-bottom:none;}
+.buy-qty{font-weight:600;color:var(--fire);text-align:right;}
+.buy-qty.zero{color:var(--muted);font-weight:400;}
+.buy-cost{color:var(--text2);text-align:right;font-size:12px;}
+.nut-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;padding:14px 16px;}
+.nut-head{display:flex;justify-content:space-between;font-size:12px;margin-bottom:2px;}
+.nut-range{font-size:10px;color:var(--muted);margin-bottom:4px;}
+.nut-pct{font-weight:600;color:var(--fire);}
+.nut-pct.ok{color:var(--green);}
+.nut-status{font-size:10px;margin-top:3px;}
+.bar{height:5px;background:#f0ece8;border-radius:3px;overflow:hidden;}
+.bar-fill{height:100%;border-radius:3px;background:var(--fire);transition:width .6s ease;}
+.bar-fill.ok{background:var(--green);}
+.menu-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;padding:12px 14px;}
+@media(max-width:960px){.menu-grid{grid-template-columns:1fr 1fr;}}
+.menu-card{border:1px solid var(--border);border-radius:10px;padding:12px;position:relative;background:var(--surface);}
+.menu-rank{position:absolute;top:-1px;left:-1px;width:22px;height:22px;background:var(--fire);color:#fff;font-size:10px;font-weight:600;border-radius:10px 0 8px 0;display:flex;align-items:center;justify-content:center;}
+.menu-name{font-size:13px;font-weight:500;margin-bottom:5px;padding-left:16px;line-height:1.4;}
+.menu-pct{font-size:20px;font-weight:600;color:var(--green);}
+.menu-pct.warn{color:var(--gold);}
+.menu-pct-lbl{font-size:10px;color:var(--muted);margin-bottom:5px;}
+.menu-reason{font-size:11px;color:var(--text2);margin-bottom:6px;line-height:1.5;}
+.pills{display:flex;gap:4px;flex-wrap:wrap;}
+.pill{font-size:10px;padding:2px 7px;border-radius:10px;background:var(--bg);border:1px solid var(--border);color:var(--text2);}
+.pill.warn{background:#fff7e6;border-color:#f5d99a;color:#b06d00;}
+.footer-note{max-width:1100px;margin:0 auto;padding:14px 32px 28px;font-size:12px;color:var(--muted);border-top:1px solid var(--border);margin-top:8px;}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-tag">Operations Research · LP Optimization · Social Impact</div>
+    <h1>Vận hành bếp ăn từ thiện 360 suất/ngày:<br><em>Làm thế nào để giảm chi phí mà vẫn đủ dinh dưỡng?</em></h1>
+    <p class="hero-desc">Lấy cảm hứng từ Quán Cơm Xã Hội Mây Ngàn (TP.HCM). Giả sử bạn vận hành một bếp ăn từ thiện — nguyên liệu đến từ quyên góp ngẫu nhiên, ngân sách eo hẹp. Tool này dùng <strong style="color:#fff">Linear Programming</strong> (Google OR-Tools) để tối ưu hóa quyết định mua sắm mỗi ngày.</p>
+    <div class="ba-strip">
+      <div class="ba-card">
+        <div class="ba-label" style="color:#f09595">Bài toán — không có công cụ</div>
+        <div class="ba-item bad">Không biết donate hôm nay thiếu NL gì</div>
+        <div class="ba-item bad">Mua dư → lãng phí quỹ từ thiện eo hẹp</div>
+        <div class="ba-item bad">Mua thiếu → bữa ăn không đủ dinh dưỡng</div>
+      </div>
+      <div style="display:flex;align-items:center;color:rgba(255,255,255,.2);font-size:22px;padding:0 4px;">→</div>
+      <div class="ba-card" style="border-color:rgba(58,170,124,.3)">
+        <div class="ba-label" style="color:#9FE1CB">Giải pháp — LP Optimizer</div>
+        <div class="ba-item good">Nhập donate sáng nay → solver chạy &lt;1 giây</div>
+        <div class="ba-item good">Biết đúng cần mua gì, bao nhiêu kg, bao tiền</div>
+        <div class="ba-item good">Gợi ý 3 thực đơn nấu được với NL hiện có</div>
+      </div>
+    </div>
+    <div class="how">
+      <div class="how-step"><span class="how-num">1</span>Nhập kg donate sáng nay</div>
+      <span class="how-arr">→</span>
+      <div class="how-step"><span class="how-num">2</span>Chỉnh budget &amp; số suất</div>
+      <span class="how-arr">→</span>
+      <div class="how-step"><span class="how-num">3</span>Bấm "Tính toán"</div>
+      <span class="how-arr">→</span>
+      <div class="how-step"><span class="how-num">4</span>Xem mua gì + nấu món gì</div>
+    </div>
+  </div>
+</div>
+
+<div class="demo-bar">
+  <div class="demo-inner">
+    <span class="demo-tag">Demo nhanh</span>
+    <span class="demo-text">Thử kịch bản — số liệu calibrate từ sổ sách thực tế</span>
+    <div class="demo-btns">
+      <button class="demo-btn primary" onclick="loadDemo('normal')">Ngày bình thường</button>
+      <button class="demo-btn outline" onclick="loadDemo('good')">Ngày được tặng nhiều</button>
+      <button class="demo-btn outline" onclick="loadDemo('bad')">Ngày khan hiếm</button>
+      <button class="demo-btn real"    onclick="loadDemo('real17mar')">17/3/2026 — Đối chiếu thực tế</button>
+    </div>
+  </div>
+</div>
+
+<div class="main">
+  <div>
+    <div class="panel">
+      <div class="panel-head">Hôm nay nhận donate được gì? (nhập kg từng loại)</div>
+      <div class="panel-body">
+        {% for key, ing in ingredients.items() %}
+        <div class="input-row">
+          <label class="input-label" for="don-{{ key }}">
+            {{ ing.name }}
+            <small>{{ "{:,.0f}".format(ing.price_per_kg).replace(",",".") }} VNĐ/kg</small>
+          </label>
+          <div class="input-right">
+            <input class="input-num" type="number" id="don-{{ key }}"
+                   min="0" step="0.5"
+                   value="{{ default_donations[key] }}"
+                   oninput="onDonateChange('{{ key }}', +this.value, {{ ing.price_per_kg }}, {{ (default_servings * ing.serving_g / 1000) | round(1) }})">
+            <div class="input-vnd" id="vnd-{{ key }}">
+              {% if default_donations[key] > 0 %}
+              ≈ {{ "{:,.0f}".format(default_donations[key] * ing.price_per_kg / 1000).replace(",",".") }}k VNĐ
+              {% endif %}
+            </div>
+            <div class="cov-bar-wrap">
+              <div class="cov-bar-fill" id="cov-{{ key }}"
+                style="width:{{ [[default_donations[key] / ((default_servings * ing.serving_g / 1000) if (default_servings * ing.serving_g / 1000) > 0 else 1) * 100, 100] | min, 0] | max | int }}%;background:{{ 'var(--green)' if default_donations[key] >= (default_servings * ing.serving_g / 1000) else ('var(--gold)' if default_donations[key] > 0 else '#f0ece8') }}">
+              </div>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-head">Hôm nay nấu như thế nào?</div>
+      <div class="panel-body">
+        <div class="slider-block">
+          <div class="slider-header">
+            <div class="slider-label-wrap">
+              <span class="slider-label">Hôm nay được phép tiêu tối đa bao nhiêu?</span>
+              <span class="slider-note">Kéo phải = cho phép mua nhiều hơn</span>
+            </div>
+            <span class="slider-val" id="budget-lbl">7,0 triệu VNĐ</span>
+          </div>
+          <input type="range" id="budget-sl" min="500000" max="12000000" step="100000"
+                 value="{{ default_budget }}" oninput="setBudgetLbl(this.value)">
+        </div>
+        <div class="slider-block">
+          <div class="slider-header">
+            <div class="slider-label-wrap">
+              <span class="slider-label">Hôm nay nấu bao nhiêu suất?</span>
+              <span class="slider-note">Thứ 7, CN thường đông hơn (300–400)</span>
+            </div>
+            <span class="slider-val" id="n-lbl">360 suất</span>
+          </div>
+          <input type="range" id="n-sl" min="50" max="600" step="10"
+                 value="{{ default_servings }}"
+                 oninput="document.getElementById('n-lbl').textContent=this.value+' suất'">
+        </div>
+      </div>
+    </div>
+
+    <div class="btn-row">
+      <button class="solve-btn" id="solve-btn" onclick="runSolve()">Tính toán — cần mua gì hôm nay?</button>
+      <button class="reset-btn" onclick="resetForm()">↺ Nhập lại</button>
+    </div>
+  </div>
+
+  <div>
+    <div class="panel" id="result-panel">
+      <div id="rph" class="result-placeholder">
+        <div class="ico">⚡</div>
+        <p><strong>Nhập số kg donate nhận được</strong> bên trái,<br>
+        rồi bấm nút tính toán — hoặc chọn kịch bản demo.</p>
+      </div>
+      <div id="rcont" style="display:none">
+        <div id="status-bar" class="status-bar optimal">
+          <div class="sdot" style="background:currentColor"></div>
+          <span id="stext"></span>
+        </div>
+        <div class="summary-card">
+          <div class="summary-headline" id="sum-headline"></div>
+          <div class="summary-detail"   id="sum-detail"></div>
+        </div>
+        <div class="kpi-row">
+          <div class="kpi-cell">
+            <div class="kpi-val" id="k-cost">—</div>
+            <div class="kpi-lbl">Cần bỏ tiền ra chợ mua thêm</div>
+            <div class="kpi-note" id="k-cost-note"></div>
+          </div>
+          <div class="kpi-cell">
+            <div class="kpi-val" id="k-saved" style="color:var(--green)">—</div>
+            <div class="kpi-lbl">Quyên góp hôm nay trị giá</div>
+            <div class="kpi-note">Nếu không ai donate, phải tốn thêm số này</div>
+          </div>
+          <div class="kpi-cell">
+            <div class="kpi-val" id="k-remain" style="color:var(--gold)">—</div>
+            <div class="kpi-lbl">Còn dư trong hạn mức</div>
+            <div class="kpi-note">Dùng cho gas, nước, vận chuyển, lương...</div>
+          </div>
+        </div>
+        <div class="sec-head">Dòng tiền hôm nay</div>
+        <div style="padding:14px 16px;border-bottom:1px solid var(--border)">
+          <div id="cashflow-chart"></div>
+        </div>
+        <div class="sec-head">Ra chợ mua thêm những thứ này</div>
+        <table class="buy-table">
+  <thead><tr style="background:var(--bg);border-bottom:1px solid var(--border)">
+    <th style="padding:7px 14px;text-align:left;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.07em;color:var(--text2)">Nguyên liệu</th>
+    <th style="padding:7px 14px;text-align:right;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.07em;color:var(--text2)">Cần mua (kg)</th>
+    <th style="padding:7px 14px;text-align:right;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.07em;color:var(--muted)">Mỗi suất</th>
+    <th style="padding:7px 14px;text-align:right;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.07em;color:var(--text2)">Chi phí</th>
+  </tr></thead>
+  <tbody id="buy-tbody"></tbody>
+</table>
+        <div class="sec-head">Dinh dưỡng mỗi suất ăn — so với chuẩn Bộ Y tế VN</div>
+        <div style="padding:6px 14px 2px;font-size:11px;color:var(--muted)">% = so với mức tối thiểu · xanh = đạt · cam = chưa đủ</div>
+        <div class="nut-grid" id="nut-grid"></div>
+        <div class="sec-head">Hôm nay nên nấu món gì?</div>
+        <div class="menu-grid" id="menu-grid"></div>
+        <div id="backtest-section" style="display:none;border-top:1px solid var(--border)">
+          <div class="sec-head" style="color:var(--green)">Đối chiếu thực tế — 17/03/2026</div>
+          <div style="padding:7px 14px;font-size:12px;color:var(--muted);border-bottom:1px solid var(--border)">Nguồn: Danh sách chi ngày 17/03/2026 — Quán Cơm XH 239 Bis LT Kiệt</div>
+          <table style="width:100%;border-collapse:collapse" id="backtest-table"></table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="footer-note">
+  <strong style="color:var(--text2)">Về dự án:</strong>
+  Lấy cảm hứng từ Quán Cơm Xã Hội Mây Ngàn (239 Bis LT Kiệt, P.Phú Thọ, TP.HCM).
+  Mô hình giả lập cho bếp ăn từ thiện tương tự — không đại diện cho hoạt động thực tế.
+  Calibrate từ sổ sách công khai 17/03/2026 (sai lệch chi phí: 1.5% trừ gia vị).
+  LP Blending Problem · Google OR-Tools GLOP.
+</div>
+
+<script>
+const PRICES   = {{ prices | tojson }};
+const ING_STD  = {{ standards | tojson }};
+const DEFAULTS = {{ default_donations | tojson }};
+const DEFAULT_BUDGET   = {{ default_budget }};
+const DEFAULT_SERVINGS = {{ default_servings }};
+const NEED_KG = {};
+const SERVING_G = {};
+{% for key, ing in ingredients.items() %}
+NEED_KG['{{ key }}'] = DEFAULT_SERVINGS * {{ ing.serving_g }} / 1000;
+SERVING_G['{{ key }}'] = {{ ing.serving_g }};
+{% endfor %}
+
+const DEMOS = {
+  normal:    {budget:7000000,n:360,d:{gao:32,thit_heo:3.2,rau_cu:20,dau_an:2.8,gia_vi:4,banh_mi:4,sua_dau_nanh:24,chuoi:9.6}},
+  good:      {budget:7000000,n:360,d:{gao:100,thit_heo:0,rau_cu:0,dau_an:25,gia_vi:18,banh_mi:0,sua_dau_nanh:48,chuoi:0}},
+  bad:       {budget:6000000,n:360,d:{gao:8,thit_heo:1,rau_cu:4,dau_an:0.5,gia_vi:1,banh_mi:1,sua_dau_nanh:5,chuoi:2}},
+  real17mar: {budget:7000000,n:360,d:{gao:100,thit_heo:0,rau_cu:0,dau_an:25,gia_vi:21,banh_mi:0,sua_dau_nanh:96,chuoi:0}}
+};
+const REAL_17MAR = {
+  purchase_kg:{thit_heo:16.0,rau_cu:43.8,banh_mi:9.8,chuoi:34.6},
+  total_cost:4045000
+};
+
+let _demo = null;
+
+function fmtVND(n){
+  if(!n&&n!==0) return '—';
+  n=Math.round(n);
+  if(n>=1000000) return (n/1000000).toFixed(1).replace('.',',')+'M VNĐ';
+  if(n>=1000)    return Math.round(n/1000)+'.000 VNĐ';
+  return n+' VNĐ';
+}
+
+function setBudgetLbl(v){
+  document.getElementById('budget-lbl').textContent=(parseInt(v)/1000000).toFixed(1).replace('.',',')+'M VNĐ';
+}
+
+function onDonateChange(key, kg, price, needKg){
+  const vnd=document.getElementById('vnd-'+key);
+  const cov=document.getElementById('cov-'+key);
+  if(vnd){ vnd.textContent=kg>0?'≈ '+fmtVND(kg*price):''; vnd.style.color='var(--green)'; }
+  if(cov&&needKg>0){
+    const pct=Math.min(kg/needKg*100,100);
+    cov.style.width=pct.toFixed(0)+'%';
+    cov.style.background=pct>=100?'var(--green)':pct>50?'var(--gold)':'var(--fire)';
+  }
+}
+
+function loadDemo(type){
+  _demo=type;
+  const d=DEMOS[type];
+  Object.entries(d.d).forEach(([k,v])=>{
+    const el=document.getElementById('don-'+k);
+    if(el){el.value=v;onDonateChange(k,v,PRICES[k]||0,NEED_KG[k]||1);}
+  });
+  document.getElementById('budget-sl').value=d.budget;setBudgetLbl(d.budget);
+  document.getElementById('n-sl').value=d.n;
+  document.getElementById('n-lbl').textContent=d.n+' suất';
+  runSolve();
+}
+
+function resetForm(){
+  _demo=null;
+  Object.entries(DEFAULTS).forEach(([k,v])=>{
+    const el=document.getElementById('don-'+k);
+    if(el){el.value=v;onDonateChange(k,v,PRICES[k]||0,NEED_KG[k]||1);}
+  });
+  document.getElementById('budget-sl').value=DEFAULT_BUDGET;setBudgetLbl(DEFAULT_BUDGET);
+  document.getElementById('n-sl').value=DEFAULT_SERVINGS;
+  document.getElementById('n-lbl').textContent=DEFAULT_SERVINGS+' suất';
+  document.getElementById('rph').style.display='block';
+  document.getElementById('rcont').style.display='none';
+}
+
+async function runSolve(){
+  const btn=document.getElementById('solve-btn');
+  btn.disabled=true;btn.textContent='Đang tính toán...';
+  const donations={};
+  document.querySelectorAll('.input-num').forEach(el=>{
+    donations[el.id.replace('don-','')]=parseFloat(el.value)||0;
+  });
+  const budget=parseInt(document.getElementById('budget-sl').value);
+  const n_servings=parseInt(document.getElementById('n-sl').value);
+  try{
+    const res=await fetch('/api/solve',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({donations,budget,n_servings})});
+    if(!res.ok) throw new Error('HTTP '+res.status);
+    const data=await res.json();
+    render(data,budget,n_servings);
+  }catch(e){alert('Lỗi: '+e.message);}
+  btn.disabled=false;btn.textContent='Tính toán — cần mua gì hôm nay?';
+}
+
+function render(data,budget,n_servings){
+  document.getElementById('rph').style.display='none';
+  document.getElementById('rcont').style.display='block';
+
+  // Status
+  const bar=document.getElementById('status-bar');
+  bar.className='status-bar '+(data.status==='OPTIMAL'?'optimal':data.status==='FEASIBLE'?'feasible':'bad');
+  document.getElementById('stext').textContent=
+    data.status==='OPTIMAL'  ?'✓ Tìm được phương án — trong hạn mức, chi phí thấp nhất có thể':
+    data.status==='FEASIBLE' ?'~ Vừa đủ — nên tăng thêm một chút hạn mức':
+                              '✗ Không đủ tiền — cần tăng hạn mức hoặc thêm donate';
+
+  // Summary
+  const hasBuy=Object.values(data.purchase||{}).some(v=>v>0.01);
+  const nutOk=Object.values(data.coverage||{}).every(v=>v>=100);
+  const cost=data.total_cost||0, saved=data.cost_saved||0;
+  const savePct=budget>0?Math.round(saved/(saved+cost)*100):0;
+  let hl='',det='';
+  if(data.status==='INFEASIBLE'){hl='⚠ Không đủ ngân sách hôm nay';det='Cần tăng hạn mức hoặc kêu gọi thêm donate.';}
+  else if(!hasBuy){hl='🎉 Hôm nay donate đã đủ toàn bộ!';det='Không cần ra chợ. Donate tiết kiệm được <strong style="color:var(--green)">'+fmtVND(saved)+'</strong>.';}
+  else{
+    hl='Cần ra chợ mua thêm '+(data.n_items_bought||0)+' loại nguyên liệu';
+    det='Mang theo <strong style="color:var(--fire)">'+fmtVND(cost)+'</strong> · Donate đã cover <span style="color:var(--green)">'+savePct+'% chi phí</span> · '
+       +(nutOk?'<span style="color:var(--green)">✓ Đủ dinh dưỡng cả 4 chỉ số</span>':'<span style="color:var(--gold)">⚠ Một số dưỡng chất chưa đủ</span>');
+  }
+  document.getElementById('sum-headline').textContent=hl;
+  document.getElementById('sum-detail').innerHTML=det;
+
+  // KPIs
+  document.getElementById('k-cost').textContent=fmtVND(cost);
+  document.getElementById('k-saved').textContent=fmtVND(saved);
+  document.getElementById('k-remain').textContent=fmtVND(data.budget_remain);
+  const kn=document.getElementById('k-cost-note');
+  if(kn&&cost>0) kn.textContent='≈ '+Math.round(cost/n_servings).toLocaleString('vi-VN')+' VNĐ/suất';
+
+  // Cashflow
+  const cf=document.getElementById('cashflow-chart');
+  const maxV=Math.max(saved,cost,data.budget_remain||0,1);
+  function cfBar(val,color,label){
+    const w=Math.min(val/maxV*100,100).toFixed(1);
+    return '<div class="cf-bar"><div class="cf-bar-header"><span style="color:var(--text2);font-size:12px">'+label+'</span><span style="font-weight:600;color:'+color+'">'+fmtVND(val)+'</span></div>'
+      +'<div class="cf-track"><div class="cf-fill" style="width:'+w+'%;background:'+color+'">'
+      +(parseFloat(w)>15?'<span>'+Math.round(val/1000)+'k</span>':'')
+      +'</div></div></div>';
+  }
+  const NAMES=data.ingredients||{};
+  const buyE=Object.entries(data.purchase||{}).filter(([,v])=>v>0.01).sort((a,b)=>b[1]*(PRICES[b[0]]||0)-a[1]*(PRICES[a[0]]||0));
+  let bkdn='';
+  if(buyE.length){
+    bkdn='<div style="margin-top:12px;padding-top:10px;border-top:1px solid var(--border)"><div style="font-size:10px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px">Chi tiết tiền ra từng nguyên liệu</div>';
+    buyE.forEach(([k,qty])=>{
+      const ic=qty*(PRICES[k]||0),pct=cost>0?(ic/cost*100).toFixed(0):0,w=cost>0?(ic/cost*100).toFixed(1):0;
+      bkdn+='<div style="margin-bottom:7px"><div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:3px"><span style="color:var(--text2)">'+(NAMES[k]||k)+' <span style="color:var(--muted)">('+qty.toFixed(1)+'kg)</span></span><span style="color:var(--fire)">'+fmtVND(ic)+' · '+pct+'%</span></div>'
+        +'<div style="height:7px;background:#f0ece8;border-radius:4px;overflow:hidden;border:0.5px solid var(--border)"><div style="height:100%;width:'+w+'%;background:#f09595;border-radius:4px;transition:width .6s"></div></div></div>';
+    });
+    bkdn+='</div>';
+  }
+  cf.innerHTML=
+    cfBar(saved,'var(--green)','↑ Tiền vào — Donate trị giá (phần dùng hôm nay)')+
+    cfBar(cost,'var(--fire)','↓ Tiền ra — Cần mang đi chợ')+
+    cfBar(data.budget_remain||0,'var(--gold)','= Còn dư trong hạn mức')+
+    '<div class="cf-summary">Hạn mức <strong style="color:var(--text)">'+fmtVND(budget)+'</strong> → Chi <strong style="color:var(--fire)">'+fmtVND(cost)+'</strong> → Dư <strong style="color:var(--gold)">'+fmtVND(data.budget_remain||0)+'</strong> &nbsp;·&nbsp; Donate tiết kiệm <strong style="color:var(--green)">'+fmtVND(saved)+'</strong> so với ngày không ai quyên góp</div>'+bkdn;
+
+  // Buy table
+  const tb=document.getElementById('buy-tbody');
+  tb.innerHTML='';
+  if(!hasBuy){tb.innerHTML='<tr><td colspan="3" style="color:var(--green);padding:14px;font-size:13px">✓ Donate hôm nay đã đủ — không cần mua thêm gì!</td></tr>';}
+  else Object.entries(data.purchase||{}).forEach(([k,qty])=>{
+    const zero=qty<0.01,c2=zero?null:qty*(PRICES[k]||0);
+    const sg=SERVING_G[k]||0,perS=sg>=1000?(sg/1000).toFixed(1)+'kg':(sg>0?sg+'g':'—');
+    tb.innerHTML+='<tr>'
+      +'<td>'+(NAMES[k]||k)+'</td>'
+      +'<td class="buy-qty '+(zero?'zero':'')+'">'+( zero?'—':qty.toFixed(1)+' kg')+'</td>'
+      +'<td style="text-align:right;font-size:11px;color:var(--muted);padding:8px 14px">'+(zero?'':perS+'/suất')+'</td>'
+      +'<td class="buy-cost">'+(zero?'—':fmtVND(c2))+'</td>'
+      +'</tr>';
+  });
+
+  // Nutrition
+  const ng=document.getElementById('nut-grid');
+  ng.innerHTML='';
+  Object.entries(data.coverage||{}).forEach(([j,pct])=>{
+    const std=(data.standards||ING_STD)[j]||{},label=std.label||j,val=(data.nutrition||{})[j]||0;
+    const ok=pct>=100,over=std.max&&val>std.max,w=Math.min(pct,100).toFixed(0);
+    let sn=over?'<div class="nut-status" style="color:var(--gold)">⚠ Hơi cao — ổn, phần thừa dùng ngày mai</div>'
+            :ok?'<div class="nut-status" style="color:var(--green)">✓ Đạt chuẩn</div>'
+            :'<div class="nut-status" style="color:var(--fire)">Thiếu '+((std.min||0)-val).toFixed(1)+' '+(std.unit||'g')+' — nên tăng hạn mức</div>';
+    ng.innerHTML+='<div><div class="nut-head"><span style="color:var(--text2);font-size:13px">'+label+'</span><span class="nut-pct '+(ok?'ok':'')+'">'+Math.round(pct)+'% tối thiểu</span></div>'
+      +'<div class="nut-range">'+val.toFixed(1)+' '+(std.unit||'g')+'/suất &nbsp;·&nbsp; chuẩn: '+std.min+'–'+std.max+' '+(std.unit||'g')+'</div>'
+      +'<div class="bar"><div class="bar-fill '+(ok?'ok':'')+'" style="width:'+w+'%"></div></div>'+sn+'</div>';
+  });
+
+  // Menus
+  const mg=document.getElementById('menu-grid');
+  mg.innerHTML='';
+  const menus=data.menus||[];
+  if(!menus.length){mg.innerHTML='<div style="grid-column:1/-1;padding:12px;color:var(--muted);font-size:13px">Không có thực đơn khả thi.</div>';}
+  else menus.forEach((m,i)=>{
+    const ok=m.feasible_pct===100;
+    mg.innerHTML+='<div class="menu-card"><div class="menu-rank">'+(i+1)+'</div><div class="menu-name">'+m.name+'</div><div class="menu-pct '+(ok?'':'warn')+'">'+m.feasible_pct+'%</div><div class="menu-pct-lbl">nguyên liệu đủ để nấu</div><div class="menu-reason">'+m.reason+'</div><div class="pills"><span class="pill">'+m.cook_time+' phút</span><span class="pill">'+(['','Dễ','Vừa','Khó'][m.difficulty]||'')+'</span>'+(m.missing||[]).map(x=>'<span class="pill warn">Thiếu: '+(NAMES[x]||x)+'</span>').join('')+'</div></div>';
+  });
+
+  // Backtest
+  const bts=document.getElementById('backtest-section');
+  if(_demo==='real17mar'){
+    bts.style.display='block';
+    const bt=document.getElementById('backtest-table');
+    let rows='<thead><tr style="background:var(--bg);border-bottom:1px solid var(--border)"><th style="padding:8px 14px;text-align:left;font-size:11px;font-weight:600;color:var(--text2)">Nguyên liệu</th><th style="padding:8px 14px;text-align:right;font-size:11px;font-weight:600;color:var(--fire)">Model</th><th style="padding:8px 14px;text-align:right;font-size:11px;font-weight:600;color:var(--text2)">Thực tế</th><th style="padding:8px 14px;text-align:right;font-size:11px;font-weight:600;color:var(--text2)">Sai lệch</th><th></th></tr></thead><tbody>';
+    Object.keys(data.purchase||{}).forEach(k=>{
+      const m=parseFloat((data.purchase[k]||0).toFixed(1)),r=REAL_17MAR.purchase_kg[k]||0;
+      const diff=Math.abs(m-r),pct=r>0?(diff/r*100).toFixed(0)+'%':(m===0?'—':'?');
+      const ok=diff<2,col=(m===0&&r===0)?'var(--muted)':ok?'var(--green)':'var(--fire)';
+      rows+='<tr style="border-bottom:1px solid var(--border)"><td style="padding:8px 14px;font-size:13px">'+(NAMES[k]||k)+'</td><td style="padding:8px 14px;text-align:right;font-weight:500;color:'+col+'">'+m.toFixed(1)+' kg</td><td style="padding:8px 14px;text-align:right;font-size:13px">'+r.toFixed(1)+' kg</td><td style="padding:8px 14px;text-align:right;font-size:12px;color:'+col+'">'+pct+'</td><td style="padding:8px 14px;font-size:11px;color:var(--muted)">'+(((m===0&&r===0)||ok)?'✓':'△')+'</td></tr>';
+    });
+    rows+='<tr style="background:var(--bg);border-bottom:1px solid var(--border)"><td colspan="4" style="padding:8px 14px;font-size:11px;color:var(--muted)">⚠ Gia vị: model=0kg (donate 21kg đủ dùng) — thực tế mua thêm 37.4kg tỏi/ớt/tiêu/muối (loại khác)</td><td style="padding:8px 14px;font-size:11px;color:var(--gold)">Known</td></tr>';
+    const mc=data.total_cost||0,rc=REAL_17MAR.total_cost,ep=Math.abs((mc-rc)/rc*100).toFixed(1);
+    rows+='<tr style="font-weight:600;background:var(--bg)"><td style="padding:10px 14px">Tổng chi phí</td><td style="padding:10px 14px;text-align:right;color:var(--fire)">'+fmtVND(mc)+'</td><td style="padding:10px 14px;text-align:right">'+fmtVND(rc)+'</td><td style="padding:10px 14px;text-align:right;font-size:12px">'+ep+'%</td><td style="padding:10px 14px;font-size:11px;color:'+(ep<10?'var(--green)':'var(--gold)')+'">'+( ep<10?'✓ Validated':'△')+'</td></tr></tbody>';
+    bt.innerHTML=rows;
+  } else { bts.style.display='none'; }
+}
+</script>
+</body>
+</html>
